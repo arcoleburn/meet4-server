@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-const { requireAuth } = require('../middleware/jwt-auth');
+const { requireAuth } = require('../middleware/jwtAuth');
 const AuthService = require('./authService');
 const jsonBodyParser = express.json();
 const authRouter = express.Router();

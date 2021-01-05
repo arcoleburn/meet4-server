@@ -1,5 +1,5 @@
 'use strict';
-const bcrypt = require('bcrypjs');
+const bcrypt = require('bcryptjs');
 
 const UsersService = {
   hasUserWithUsername(db, username) {

@@ -4,4 +4,3 @@ create table locations(
   location_name text not null, 
   location_address text not null
 );
-
