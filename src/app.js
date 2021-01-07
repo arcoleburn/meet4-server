@@ -9,7 +9,7 @@ const { NODE_ENV } = require('./config');
 
 const usersRouter = require('./users/usersRouter');
 const authRouter = require('./auth/authRouter');
-
+const profileRouter = require('./profile/profileRouter');
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
 const app = express();
 
@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 });
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
-// app.use('/api/profile', profileRouter)//need to build. should contain: 
+app.use('/api/profile', profileRouter);//need to build. should contain: 
 
 
 // a get user info endpt 
