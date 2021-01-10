@@ -1,5 +1,4 @@
 'use strict';
-
 const ProfileService = {
   getLocationsForUser(db, userId) {
     return db.from('locations').select('*').where('user_id', userId);

@@ -10,9 +10,10 @@ const { NODE_ENV } = require('./config');
 const usersRouter = require('./users/usersRouter');
 const authRouter = require('./auth/authRouter');
 const profileRouter = require('./profile/profileRouter');
+const friendsRouter = require('./friends/friendsRouter');
+const historyRouter = require('./history/historyRouter');
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
 const app = express();
-
 
 app.use(morgan(morganOption));
 app.use(helmet());
@@ -23,21 +24,9 @@ app.get('/', (req, res) => {
 });
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/profile', profileRouter);//need to build. should contain: 
-
-
-// a get user info endpt 
-//a get locations endpoint? 
-//a post new locations endpoint 
-//a post restaurants endpoint 
-//a get fav restaurants endpoint? 
-
-// app.use('/api/friends', friendsRouter) //need to build should have:
-//a get friends endpt 
-//a make friend request endpt 
-//an accept friend endpoint? 
-//a del friend endpt 
-
+app.use('/api/profile', profileRouter); 
+app.use('/api/friends', friendsRouter);
+app.use('/api/history', historyRouter);
 
 
 app.use(function errorHandler(error, req, res, next) {
