@@ -9,15 +9,15 @@ const FriendsService = {
       .select('*')
       .where('initiator_id', userId)
       .orWhere('recipient_id', userId)
-      .whereNot({ accepted: false });
+      .whereNot({ accepted: false })
   },
 
   getFriendRequestsForUser(db, userId) {
     return db('friends')
-      .select('id')
+      .select('friends.id', 'username')
       .where('recipient_id', userId)
       .where({ accepted: false })
-      // .join('users', 'initiator.id', '=', 'users.id');
+      .join('users', 'initiator_id', '=', 'users.id');
   },
 
   sendFriendRequest(db, userId, username) {
