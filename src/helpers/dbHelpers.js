@@ -2,10 +2,10 @@
 
 const DbHelpers = {
   getUserIdFromUsername(db, username) {
-    return db.from('users').select('id').where({ username });
+    return db('users').select('id').where({ username });
   },
   getUsernameFromId(db, id) {
-    return db.from('users').select('username').where({ id });
+    return db('users').select('username').where({ id });
   },
 };
 

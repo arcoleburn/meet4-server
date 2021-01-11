@@ -6,10 +6,25 @@ const FriendsService = {
   getFriendsForUser(db, userId) {
     return db
       .from('friends')
-      .select('*')
+      .select(
+        'friends.id',
+        'username',
+        'email',
+        'date_added',
+        'pizza_count',
+        'coffee_count',
+        'beer_count'
+      )
       .where('initiator_id', userId)
       .orWhere('recipient_id', userId)
       .whereNot({ accepted: false })
+      .join('users', function () {
+        this.on('initiator_id', '=', 'users.id').orOn(
+          'recipient_id',
+          '=',
+          'users.id'
+        );
+      });
   },
 
   getFriendRequestsForUser(db, userId) {
@@ -62,6 +77,9 @@ const FriendsService = {
   },
   getFriendInfo(db, id) {
     return db.from('users').where({ id }).select('username', 'email');
+  },
+  getFriendLocs(db, id) {
+    return db.from('locations').where('user_id', id).select('*');
   },
 };
 

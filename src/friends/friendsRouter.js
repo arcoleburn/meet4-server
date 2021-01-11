@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const DbHelpers = require('../helpers/dbHelpers');
 const { requireAuth } = require('../middleware/jwtAuth');
 const { acceptRequest } = require('./FriendsService');
 const jsonParser = express.json();
@@ -61,11 +62,12 @@ friendsRouter
   });
 
 friendsRouter
-  .route('/friendDetails')
+  .route('/friendlocs/:friendUsername')
   .all(requireAuth)
   .get((req, res, next) => {
+    const friendId = DbHelpers.getUserIdFromUsername(req.app.get('db'), req.params.friendUsername)
     if (
-      !FriendsService.friendshipExists(req.user.id, req.body.friendId)
+      !FriendsService.friendshipExists(req.app.get('db'),req.user.id, friendId)
     ) {
       return res.status(400).json({
         error: 'Friendship does not exist, or has not been confirmed',
@@ -75,12 +77,12 @@ friendsRouter
       FriendsService.friendshipExists(
         req.app.get('db'),
         req.user.id,
-        req.body.friendId
+        friendId
       )
     ) {
-      FriendsService.getFriendInfo(
+      FriendsService.getFriendLocs(
         req.app.get('db'),
-        req.body.friendId
+        friendId
       ).then((info) => res.json(info));
     }
   });
