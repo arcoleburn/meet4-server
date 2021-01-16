@@ -24,6 +24,8 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.15",
     "morgan": "^1.10.0",
+    "node-fetch": "^2.6.1",
+    "node-geometry-library": "^1.2.3",
     "pg": "^8.5.1",
     "postgrator-cli": "^4.0.0"
   },

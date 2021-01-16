@@ -28,7 +28,7 @@ usersRouter.post('/', jsonBodyParser, (req, res, next) => {
       .status(400)
       .json({ error: `Password must be less than 72 characters` });
   }
-  UsersService.hasUserWithUsername(req.app.get('db'), username) //need to build
+  UsersService.hasUserWithUsername(req.app.get('db'), username)
     .then((hasUserWithUsername) => {
       if (hasUserWithUsername)
         return res.status(400).json({ error: `Username Taken` });

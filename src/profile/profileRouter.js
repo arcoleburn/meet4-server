@@ -137,15 +137,15 @@ profileRouter
     ProfileService.startStats(req.app.get('db'), newStats).then(stats=>res.json(stats));
   })
   .put(jsonParser, (req, res, next) => {
-    const { pizza_count, coffee_count, beer_count } = req.body;
+    let { category} = req.body;
 
-    const newStats = { pizza_count, coffee_count, beer_count };
+    category = category+'_count'
     const user_id = req.user.id;
 
     ProfileService.updateStatsForUser(
       req.app.get('db'),
       user_id,
-      newStats
+      category
     ).then((stats) => res.status(201).json(stats));
   });
 

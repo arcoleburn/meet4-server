@@ -3,6 +3,7 @@
 const express = require('express');
 const DbHelpers = require('../helpers/dbHelpers');
 const { requireAuth } = require('../middleware/jwtAuth');
+const UsersService = require('../users/usersService');
 const { acceptRequest } = require('./FriendsService');
 const jsonParser = express.json();
 const FriendsService = require('./FriendsService');
@@ -23,6 +24,15 @@ friendsRouter
     //posts a new friend request
     let { friendUsername } = req.body;
     let username = friendUsername;
+    UsersService.hasUserWithUsername(
+      req.app.get('db'),
+      username
+    ).then((userExists) => {
+      if (!userExists) {
+        res.status(400).json({ error: 'user does not exist' });
+        return;
+      }
+    });
     FriendsService.sendFriendRequest(
       req.app.get('db'),
       req.user.id,
@@ -31,7 +41,7 @@ friendsRouter
       res
         .status(201)
         .location(`/api/friends/${rship.id}`)
-        .json(rship);
+        .json('Request Sent');
     });
   });
 
@@ -65,9 +75,16 @@ friendsRouter
   .route('/friendlocs/:friendUsername')
   .all(requireAuth)
   .get((req, res, next) => {
-    const friendId = DbHelpers.getUserIdFromUsername(req.app.get('db'), req.params.friendUsername)
+    const friendId = DbHelpers.getUserIdFromUsername(
+      req.app.get('db'),
+      req.params.friendUsername
+    );
     if (
-      !FriendsService.friendshipExists(req.app.get('db'),req.user.id, friendId)
+      !FriendsService.friendshipExists(
+        req.app.get('db'),
+        req.user.id,
+        friendId
+      )
     ) {
       return res.status(400).json({
         error: 'Friendship does not exist, or has not been confirmed',

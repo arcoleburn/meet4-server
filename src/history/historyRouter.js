@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const DbHelpers = require('../helpers/dbHelpers');
 
 const { requireAuth } = require('../middleware/jwtAuth');
 const HistoryService = require('./HistoryService');
@@ -18,9 +19,10 @@ historyRouter
     ).then((history) => res.json(history));
   })
   .post(jsonParser, (req, res, next) => {
+    
+    
     let {
-      user1_id,
-      user2_id,
+      user2,
       user1_location,
       user2_location,
       restaurant_name,
@@ -29,15 +31,15 @@ historyRouter
     } = req.body;
 
     const newHistory = {
-      user1_id,
-      user2_id,
+      user1_id: req.user.id,
+      user2_id: DbHelpers.getUserIdFromUsername(req.app.get('db'),user2),
       user1_location,
       user2_location,
       restaurant_name,
       restaurant_address,
       category,
     };
-
+    console.log('newhistory', newHistory)
     HistoryService.addHistory(
       req.app.get('db'),
       newHistory
