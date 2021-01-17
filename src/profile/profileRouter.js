@@ -28,13 +28,11 @@ profileRouter
     //add a new location to profile
     const { name, address } = req.body;
     const userId = req.user.id;
-    console.log('req body', req.body)
     const newLocation = {
       location_name: name,
       location_address: address,
       user_id: userId,
     };
-    console.log('new loc', newLocation)
     
     for (const [key, value] of Object.entries(newLocation))
       if (value == null)
@@ -120,7 +118,6 @@ profileRouter
   .route('/stats')
   .all(requireAuth)
   .get((req, res, next) => {
-    console.log(req.user)
     ProfileService.getStatsForUser(
       req.app.get('db'),
       req.user.id

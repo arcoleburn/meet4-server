@@ -22,7 +22,6 @@ const MapsHelpers = {
           ptsArr[i],
           ptsArr[i + 1]
         );
-        console.log('to go:', target - sum);
         centerCoordinates = SphericalUtil.computeOffset(
           ptsArr[i],
           target - sum,

@@ -18,7 +18,7 @@ mapsRouter
   .route('/')
   .all(requireAuth)
   .get((req, res, next) => {
-    let addressA = req.query.addressA; //need to make sure addresses come in in right format
+    let addressA = req.query.addressA; 
     let addressB = req.query.addressB;
 
     fetch(
@@ -32,17 +32,14 @@ mapsRouter
   .route('/results')
   .all(requireAuth)
   .get((req, res, next) => {
-    // console.log('params', req);
-    let addressA = req.query.addressA; //need to make sure addresses come in in right format
+    let addressA = req.query.addressA; 
     let addressB = req.query.addressB;
-    console.log('addressA:', addressA, 'addressB', addressB)
-    console.log('QUERY', req.query)
+ 
     fetch(
       `https://maps.googleapis.com/maps/api/directions/json?origin=${addressA}&destination=${addressB}&mode=transit&transit_mode=subway&key=${process.env.GOOGLE_KEY}`
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
         let ptsArr = PolyUtil.decode(
           data.routes[0].overview_polyline.points
         );

@@ -37,8 +37,7 @@ const FriendsService = {
 
   sendFriendRequest(db, userId, username) {
     return getUserIdFromUsername(db, username).then((x) => {
-      console.log('x', x);
-
+     
       let newFriendship = {
         initiator_id: userId,
         recipient_id: x[0].id,

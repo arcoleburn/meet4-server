@@ -4,7 +4,6 @@ const express = require('express');
 const DbHelpers = require('../helpers/dbHelpers');
 const { requireAuth } = require('../middleware/jwtAuth');
 const UsersService = require('../users/usersService');
-const { acceptRequest } = require('./FriendsService');
 const jsonParser = express.json();
 const FriendsService = require('./FriendsService');
 
@@ -14,7 +13,6 @@ friendsRouter
   .route('/')
   .all(requireAuth)
   .get((req, res, next) => {
-    console.log('user', req.user);
     FriendsService.getFriendsForUser(
       req.app.get('db'),
       req.user.id

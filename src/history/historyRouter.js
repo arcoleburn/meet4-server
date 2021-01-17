@@ -39,7 +39,6 @@ historyRouter
       restaurant_address,
       category,
     };
-    console.log('newhistory', newHistory)
     HistoryService.addHistory(
       req.app.get('db'),
       newHistory

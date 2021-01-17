@@ -11,6 +11,9 @@
     "deploy": "git push heroku master",
     "migrate": "postgrator --config postgrator-config.js"
   },
+  "engines": {
+    "node": "12.19.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
