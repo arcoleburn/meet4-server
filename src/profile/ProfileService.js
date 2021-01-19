@@ -1,6 +1,6 @@
 'use strict';
 
-const Knex = require("knex");
+const Knex = require('knex');
 
 const ProfileService = {
   getLocationsForUser(db, userId) {
@@ -35,9 +35,12 @@ const ProfileService = {
     return db.from('stats').select('*').where('user_id', userId);
   },
   updateStatsForUser(db, userId, category) {
-    const newStat ={};
+    const newStat = {};
     newStat[category] = 1;
-    return db('stats').where('user_id', userId).increment(newStat)
+    return db('stats').where('user_id', userId).increment(newStat);
+  },
+  checkForStats(db, userId) {
+    return db.from('stats').select('*').where('user_id', userId);
   },
   startStats(db, stats) {
     return db
