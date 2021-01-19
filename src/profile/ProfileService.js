@@ -40,6 +40,8 @@ const ProfileService = {
     return db('stats').where('user_id', userId).increment(newStat);
   },
   checkForStats(db, userId) {
+    
+    console.log('x', db.from('stats').select('*').where('user_id', userId))
     return db.from('stats').select('*').where('user_id', userId);
   },
   startStats(db, stats) {

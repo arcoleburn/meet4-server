@@ -124,21 +124,25 @@ profileRouter
     ).then((stats) => res.json(stats));
   })
   .post(jsonParser, (req, res, next) => {
-    if (ProfileService.checkForStats()) {
-      res.status(200).json({ message: 'stats already tracked' });
-    } else {
-      const newStats = {
-        pizza_count: 0,
-        coffee_count: 0,
-        beer_count: 0,
-        user_id: req.user.id,
-      };
+    ProfileService.checkForStats(req.app.get('db'), req.user.id).then(
+      (stats) => {
+        if (stats.length>0) {
+          res.status(200).json(stats);
+        } else {
+          const newStats = {
+            pizza_count: 0,
+            coffee_count: 0,
+            beer_count: 0,
+            user_id: req.user.id,
+          };
 
-      ProfileService.startStats(
-        req.app.get('db'),
-        newStats
-      ).then((stats) => res.json(stats));
-    }
+          ProfileService.startStats(
+            req.app.get('db'),
+            newStats
+          ).then((stats) => res.json(stats));
+        }
+      }
+    );
   })
   .put(jsonParser, (req, res, next) => {
     let { category } = req.body;
