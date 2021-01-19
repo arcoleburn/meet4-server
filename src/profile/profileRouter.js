@@ -33,7 +33,7 @@ profileRouter
       location_address: address,
       user_id: userId,
     };
-    
+
     for (const [key, value] of Object.entries(newLocation))
       if (value == null)
         return res
@@ -124,19 +124,26 @@ profileRouter
     ).then((stats) => res.json(stats));
   })
   .post(jsonParser, (req, res, next) => {
-    const newStats = {
-      pizza_count: 0,
-      coffee_count: 0,
-      beer_count: 0,
-      user_id: req.user.id
-    };
+    if (ProfileService.checkForStats()) {
+      res.status(200).json({ message: 'stats already tracked' });
+    } else {
+      const newStats = {
+        pizza_count: 0,
+        coffee_count: 0,
+        beer_count: 0,
+        user_id: req.user.id,
+      };
 
-    ProfileService.startStats(req.app.get('db'), newStats).then(stats=>res.json(stats));
+      ProfileService.startStats(
+        req.app.get('db'),
+        newStats
+      ).then((stats) => res.json(stats));
+    }
   })
   .put(jsonParser, (req, res, next) => {
-    let { category} = req.body;
-
-    category = category+'_count'
+    let { category } = req.body;
+    console.log('body', req.body);
+    category = category + '_count';
     const user_id = req.user.id;
 
     ProfileService.updateStatsForUser(

@@ -80,6 +80,11 @@ const FriendsService = {
   getFriendLocs(db, id) {
     return db.from('locations').where('user_id', id).select('*');
   },
+  updateFriendStats(db, id, category){
+    const newStat={}
+    newStat[category]=1
+    return db('friends').where('id', id).increment(newStat)
+  }
 };
 
 module.exports = FriendsService;

@@ -52,6 +52,16 @@ friendsRouter
       res.json(x)
     );
   })
+  .put(jsonParser, (req, res, next) => {
+    let id = req.params.id;
+    let { category } = req.body;
+    category = category + '_count';
+    FriendsService.updateFriendStats(
+      req.app.get('db'),
+      id,
+      category
+    ).then((stats) => res.status(201).json(stats));
+  })
   .delete((req, res, next) => {
     //deletes a friend or denies friend request
     FriendsService.deleteFriend(
