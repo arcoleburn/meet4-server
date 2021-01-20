@@ -1,6 +1,6 @@
-'use strict';
+'use strict'
 
-const { getUserIdFromUsername } = require('../helpers/dbHelpers');
+const { getUserIdFromUsername } = require('../helpers/dbHelpers')
 
 const FriendsService = {
   getFriendsForUser(db, userId) {
