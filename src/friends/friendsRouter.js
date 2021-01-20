@@ -13,6 +13,7 @@ friendsRouter
   .route('/')
   .all(requireAuth)
   .get((req, res, next) => {
+    console.log('req user', req.user)
     FriendsService.getFriendsForUser(
       req.app.get('db'),
       req.user.id
