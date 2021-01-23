@@ -18,7 +18,7 @@ mapsRouter
   .route('/')
   .all(requireAuth)
   .get((req, res, next) => {
-    let addressA = req.query.addressA; 
+    let addressA = req.query.addressA;
     let addressB = req.query.addressB;
 
     fetch(
@@ -32,14 +32,22 @@ mapsRouter
   .route('/results')
   .all(requireAuth)
   .get((req, res, next) => {
-    let addressA = req.query.addressA; 
+    let addressA = req.query.addressA;
     let addressB = req.query.addressB;
- 
+
     fetch(
       `https://maps.googleapis.com/maps/api/directions/json?origin=${addressA}&destination=${addressB}&mode=transit&transit_mode=subway&key=${process.env.GOOGLE_KEY}`
     )
       .then((res) => res.json())
       .then((data) => {
+        if (data.status == 'NOT_FOUND') {
+          res
+            .status(400)
+            .json({
+              error:
+                'There was an error. Please ensure addresses were valid',
+            });
+        }
         let ptsArr = PolyUtil.decode(
           data.routes[0].overview_polyline.points
         );
@@ -54,7 +62,8 @@ mapsRouter
           }
         )
           .then((res) => res.json())
-          .then((data) => res.json(data)).catch(err=>res.json({err:err}));
+          .then((data) => res.json(data))
+          .catch((err) => res.json({ err: err }));
       });
   });
 
