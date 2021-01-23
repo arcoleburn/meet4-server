@@ -7,13 +7,6 @@ const jsonParser = express.json();
 const ProfileService = require('./ProfileService');
 const profileRouter = express.Router();
 profileRouter.route('/').all(requireAuth);
-profileRouter.get('/', (req, res, next) => {
-  //return users profile info:
-  //locations
-  //favorites
-  //stats
-  //do I actually need this?
-});
 
 profileRouter
   .route('/locations')
@@ -59,7 +52,7 @@ profileRouter
       req.app.get('db'),
       req.params.id
     ).then((x) => res.status(204).end());
-  }); //patch will go here if necessary
+  }); 
 
 profileRouter
   .route('/favorites')

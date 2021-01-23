@@ -6,7 +6,7 @@ const fetch = require('node-fetch');
 
 const express = require('express');
 
-const { SphericalUtil, PolyUtil } = require('node-geometry-library');
+const { PolyUtil } = require('node-geometry-library');
 
 const { requireAuth } = require('../middleware/jwtAuth');
 

@@ -34,7 +34,7 @@ usersRouter.post('/', jsonBodyParser, (req, res, next) => {
         return res.status(400).json({ error: `Username Taken` });
 
       return UsersService.hashPassword(password).then(
-        //need to build
+     
         (hashedPassword) => {
           const newUser = {
             username,
@@ -42,7 +42,7 @@ usersRouter.post('/', jsonBodyParser, (req, res, next) => {
             email,
           };
           return UsersService.insertUser(
-            //need to build
+          
             req.app.get('db'),
             newUser
           ).then((user) => {
