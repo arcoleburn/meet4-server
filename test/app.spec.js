@@ -6,7 +6,7 @@ const helpers = require('./test-helpers');
 const knex = require('knex');
 const supertest = require('supertest');
 
-describe.skip('App', () => {
+describe('App', () => {
   it('GET / responds with 200 containing "Hello, world!"', () => {
     return supertest(app).get('/').expect(200, 'Hello, world!');
   });
@@ -76,13 +76,67 @@ describe('user happy path', () => {
                   .set('Authorization', 'bearer' + token)
                   .expect(200, helpers.makeStats()[0]);
               });
+              it('posts stats', () => {
+                return supertest(app)
+                  .get('/api/profile/stats')
+                  .set('Authorization', 'Bearer' + token)
+                  .send({ nothing: 'nothing' })
+                  .expect(200, {
+                    pizza_count: 0,
+                    coffee_count: 0,
+                    beer_count: 0,
+                    user_id: '57c8529a-e7b0-416e-ab47-6cf8cd0011d8',
+                  });
+              });
+              it('updates stats', () => {
+                return supertest(app)
+                  .put('/api/profile/stats')
+                  .set('Authorization', 'Bearer' + token)
+                  .send({ category: 'pizza' })
+                  .expect(201, {
+                    pizza_count: 1,
+                    coffee_count: 0,
+                    beer_count: 0,
+                    user_id: '57c8529a-e7b0-416e-ab47-6cf8cd0011d8',
+                  });
+              });
             });
+            describe('friends endpts', () => {
+              it('gets friends', () => {
+                return supertest(app)
+                  .get('/api/friends')
+                  .set('Authorization', 'Bearer' + token)
+                  .expect(200, {});
+              });
+              it('posts friend request', () => {
+                return supertest(app)
+                  .post('/api/friends')
+                  .set('Authorization', 'Bearer' + token)
+                  .send({ friendUsername: 'test-user-2' })
+                  .send.expect(201, 'Request Sent');
+              });
+              it('gets friend requests', () => {
+                return supertest(app)
+                  .get('/api/friends/requests')
+                  .set('Authorization', 'Bearer' + token)
+                  .expect(200, {});
+              });
+            });
+
             describe('history endpts', () => {
               it('gets history', () => {
                 return supertest(app)
                   .get('/api/history')
                   .set('Authorization', 'Bearer' + token)
                   .expect(200, helpers.makeHistory()[0]);
+              });
+              it('posts history', () => {
+                return supertest(app).post(
+                  '/api/history'
+                    .set('Authorization', 'Bearer' + token)
+                    .send(helpers.makeHistory()[0])
+                    .expect(201, helpers.makeHistory()[0])
+                );
               });
             });
             describe('maps', () => {
