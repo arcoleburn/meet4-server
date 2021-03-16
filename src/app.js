@@ -33,7 +33,7 @@ app.use('/api/directions',mapsRouter)
 app.use(function errorHandler(error, req, res, next) {
   let response;
   if (process.env.NODE_ENV === 'production') {
-    response = { error: { message: 'server error' } };
+    response = { message: { error: error } };
   } else {
     console.log(error);
     response = { message: error.messager, error };
