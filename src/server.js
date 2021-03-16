@@ -7,7 +7,7 @@ const NODE_ENV = process.env.NODE_ENV;
 
 const db = knex({
   client: 'pg',
-  connection: `${DATABASE_URL}?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory`,
+  connection: `${DATABASE_URL}?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory&rejectunauthorized=false`,
 });
 
 app.set('db', db);
