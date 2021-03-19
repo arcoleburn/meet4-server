@@ -54,7 +54,7 @@ mapsRouter
         let centerCoords = MapsHelpers.findMidpt(ptsArr);
 
         fetch(
-          `https://api.yelp.com/v3/businesses/search?term=${req.query.category}&latitude=${centerCoords.lat}&longitude=${centerCoords.lng}&radius=500&price=1&sort_by=distance`,
+          `https://api.yelp.com/v3/businesses/search?categories=${req.query.category}&latitude=${centerCoords.lat}&longitude=${centerCoords.lng}&radius=500&price=1&sort_by=distance`,
           {
             headers: {
               authorization: `bearer ${process.env.YELP_KEY}`,
