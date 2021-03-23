@@ -11,8 +11,9 @@ const usersRouter = require('./users/usersRouter');
 const authRouter = require('./auth/authRouter');
 const profileRouter = require('./profile/profileRouter');
 const friendsRouter = require('./friends/friendsRouter');
+const favoritesRouter = require('./favorites/favoritesRouter');
 const historyRouter = require('./history/historyRouter');
-const mapsRouter = require('./googleMaps/mapsRouter')
+const mapsRouter = require('./googleMaps/mapsRouter');
 const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
 const app = express();
 
@@ -25,14 +26,15 @@ app.get('/', (req, res) => {
 });
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/profile', profileRouter); 
+app.use('/api/profile', profileRouter);
 app.use('/api/friends', friendsRouter);
+app.use('/api/favorites', favoritesRouter);
 app.use('/api/history', historyRouter);
-app.use('/api/directions',mapsRouter)
+app.use('/api/directions', mapsRouter);
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
-  console.log('err handler')
+  console.log('err handler');
   if (process.env.NODE_ENV === 'production') {
     response = { message: { error: error } };
   } else {
